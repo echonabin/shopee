@@ -1,6 +1,21 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+import express from "express";
+const port = process.env.PORT || 3333;
+import dotenv from "dotenv";
+import cors from "cors";
+import bodyParser from "body-parser";
+// Env config
+dotenv.config();
 
-app.get("/", (req, res) => res.send("Hello World!"));
-app.listen(port, () => console.log(`Example app listening on port port!`));
+const app = express();
+// Route imports
+import productRoute from "./routes/Product.js";
+
+app.use(cors());
+app.use(bodyParser.json());
+
+app.use("/products", productRoute);
+app.listen(port, () =>
+  console.log(
+    `ProshoAPI app listening on ${process.env.NODE_ENV} at http://localhost:${port}`
+  )
+);
